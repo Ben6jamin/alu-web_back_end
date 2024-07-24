@@ -1,13 +1,17 @@
-process.stdout.write('Welcome to Holberton School, what is your name?\n');
+console.log('Welcome to Holberton School, what is your name?');
 
-process.stdin.on('readable', () => {
-  const chunk = process.stdin.read();
+if (process.stdin.isTTY) {
+  process.stdin.on('data', (data) => {
+    process.stdout.write(`Your name is: ${data}`);
+    process.exit();
+  });
+} else {
+  process.stdin.on('data', (data) => {
+    process.stdout.write(`Your name is: ${data}`);
+    process.exit();
+  });
 
-  if (chunk) {
-    process.stdout.write(`Your name is: ${chunk}`);
-  }
-});
-
-process.stdin.on('end', () => {
-  process.stdout.write('This important software is now closing\n');
-});
+  process.on('exit', () => {
+    console.log('This important software is now closing');
+  });
+}

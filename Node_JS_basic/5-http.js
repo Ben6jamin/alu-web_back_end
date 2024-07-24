@@ -25,11 +25,7 @@ const app = http.createServer(async (req, res) => {
     try {
       const data = await readDb(process.argv[2]);
 
-      const lines = data
-        .toString()
-        .split('\n')
-        .filter((line) => line.length > 0)
-        .slice(1);
+      const lines = data.toString().split('\n').filter((line) => line.length > 0).slice(1);
       const fields = lines.map((line) => line.split(','));
       const fieldNames = fields.map((field) => field[3]).flat();
       const uniqueFieldNames = [...new Set(fieldNames)];
@@ -38,14 +34,10 @@ const app = http.createServer(async (req, res) => {
         const students = fields.filter((student) => student[3] === field);
         const studentNames = students.map((student) => student[0]);
         if (index === uniqueFieldNames.length - 1) {
-          returnText += `Number of students in ${field}: ${
-            students.length
-          }. List: ${studentNames.join(', ')}`;
+          returnText += `Number of students in ${field}: ${students.length}. List: ${studentNames.join(', ')}`;
           return;
         }
-        returnText += `Number of students in ${field}: ${
-          students.length
-        }. List: ${studentNames.join(', ')}\n`;
+        returnText += `Number of students in ${field}: ${students.length}. List: ${studentNames.join(', ')}\n`;
       });
       res.write(returnText);
       res.end();
